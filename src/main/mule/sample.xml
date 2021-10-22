@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="3743929b-4220-4f9d-9506-53a8bc17afb5" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="sampleFlow" doc:id="78bdf90a-f3a0-4851-853a-0d875d1e4737" >
+		<http:listener doc:name="Listener" doc:id="7769483c-96a6-4dbc-873a-48699aa429d4" config-ref="HTTP_Listener_config" path="sample"/>
+		<logger level="INFO" doc:name="Logger" doc:id="4f8928bb-7127-4732-85f3-42346aabb0d4" message="first logger"/>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="e11f190b-8a98-4494-8e37-2c6d34972024" />
+		<flow-ref doc:name="sampleFlow" doc:id="c9d8fc6f-4ec2-4790-b268-c86bce37e2b5" name="sampleSub_Flow"/>
+		<logger level="INFO" doc:name="Logger" doc:id="cd6287b4-f36e-4add-9fa0-1be15b6ce139" message="end logger #[payload]"/>
+	</flow>
+	<sub-flow name="sampleSub_Flow" doc:id="32ba72fd-d67a-440d-b9c7-b35b7db2612e" >
+		<logger level="INFO" doc:name="Logger" doc:id="d46883f5-cd06-4f3b-9235-04a994528486" message="sub log start #[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="27733f50-545a-4a0d-bcf2-a52479f61f2e" message="sub log end"/>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="32a44925-6768-45fb-bb5a-437749bc1388" />
+	</sub-flow>
+</mule>
